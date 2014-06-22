@@ -12,10 +12,7 @@ function check_chart( $atts ){
 	extract( shortcode_atts( array(
 	'node' => 'loki1'
 	), $atts ) );
-//	$_SESSION['name'] = $node;
-//	echo '<img src="wordpress/torchart/torchart.php?name='.$node.'">';
 	echo '<img src="/wordpress/torchart/torchart.php?name='.$node.'">';
-//	return  $node;
 }
 add_shortcode('torchart', 'check_chart');
 ?>

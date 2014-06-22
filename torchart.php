@@ -5,10 +5,17 @@ include("/usr/share/wordpress/wp-content/plugins/pChart2.1.3/class/pDraw.class.p
 include("/usr/share/wordpress/wp-content/plugins/pChart2.1.3/class/pImage.class.php");
 include("/usr/share/wordpress/wp-content/plugins/pChart2.1.3/class/pData.class.php");
 date_default_timezone_set("UTC");
-$json = file_get_contents("https://onionoo.torproject.org/bandwidth?search=${node}");
-//$json = file_get_contents("https://onionoo.torproject.org/bandwidth?search=loki1");
+//fetching relay nickname via fingerprint lookup method
+$json = file_get_contents("https://onionoo.torproject.org/summary?lookup=${node}");
 $decodedData = json_decode($json, true);
 $relays = $decodedData['relays'];
+$firstrelay = reset($relays);
+$nickname = $firstrelay['n'];
+//nickname fetched, now queriying for bandwidth data
+$json = file_get_contents("https://onionoo.torproject.org/bandwidth?search=${nickname}");
+$response = json_decode($json, true);
+//print_r($response);
+$relays = $response['relays'];
 $firstRelay = reset($relays);
 /* Get fields */
 $finger_print = $firstRelay['fingerprint'];
@@ -54,7 +61,7 @@ $myPicture->drawScale(array("DrawSubTicks"=>TRUE,"LabelSkip"=>10,"LabelRotation"
 //$myPicture->drawScale(array("RemoveXAxis"=>TRUE));
 //$myPicture->drawScale(array("LabelRotation"=>90));
 //$myPicture->drawScale();
-$myPicture->drawText(60,35,"{$node} - {$finger_print}",array("FontSize"=>12,"Align"=>TEXT_ALIGN_BOTTOMLEFT));
+$myPicture->drawText(60,35,"{$nickname} - {$finger_print}",array("FontSize"=>12,"Align"=>TEXT_ALIGN_BOTTOMLEFT));
 /* Draw the scale, keep everything automatic */
 //$myPicture->drawSplineChart(array("DisplayValues"=>False,"DisplayColor"=>DISPLAY_AUTO));
 $myPicture->drawSplineChart();
