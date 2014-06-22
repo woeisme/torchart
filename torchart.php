@@ -1,18 +1,18 @@
 <?php
-$node = $_GET['name'];
+$fp = $_GET['name'];
 /* Include all the classes */
 include("/usr/share/wordpress/wp-content/plugins/pChart2.1.3/class/pDraw.class.php");
 include("/usr/share/wordpress/wp-content/plugins/pChart2.1.3/class/pImage.class.php");
 include("/usr/share/wordpress/wp-content/plugins/pChart2.1.3/class/pData.class.php");
 date_default_timezone_set("UTC");
 //fetching relay nickname via fingerprint lookup method
-$json = file_get_contents("https://onionoo.torproject.org/summary?lookup=${node}");
+$json = file_get_contents("https://onionoo.torproject.org/summary?lookup=${fp}");
 $decodedData = json_decode($json, true);
 $relays = $decodedData['relays'];
 $firstrelay = reset($relays);
 $nickname = $firstrelay['n'];
 //nickname fetched, now queriying for bandwidth data
-$json = file_get_contents("https://onionoo.torproject.org/bandwidth?search=${nickname}");
+$json = file_get_contents("https://onionoo.torproject.org/bandwidth?search=${fp}");
 $response = json_decode($json, true);
 //print_r($response);
 $relays = $response['relays'];
