@@ -12,7 +12,7 @@ function check_chart( $atts ){
 	extract( shortcode_atts( array(
 	'node' => 'loki1'
 	), $atts ) );
-	echo '<img src="/wordpress/torchart/torchart.php?name='.$node.'">';
+	echo '<a href="https://atlas.torproject.org/#details/'.$node.'" title="link to '.$node.' on atlas.torproject.org" target="_blank"><img src="/wordpress/torchart/torchart.php?name='.$node.'"></a>';
 }
 add_shortcode('torchart', 'check_chart');
 ?>
